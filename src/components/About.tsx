@@ -43,11 +43,11 @@ export default function About() {
 
         {/* Image Placeholder */}
         <div className="flex justify-center">
-          <img
-            src="https://via.placeholder.com/500x350"
-            alt="About BME Summit"
-            className="rounded-2xl shadow-lg"
-          />
+            <img
+              src="/aboutus.jpg"
+              alt="About Summit"
+              className="rounded-2xl shadow-lg"
+            />
         </div>
       </div>
     </section>

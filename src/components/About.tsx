@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 export default function About() {
   return (
     <section id="about" className="bg-blue-50 py-16">
@@ -43,11 +45,14 @@ export default function About() {
 
         {/* Image Placeholder */}
         <div className="flex justify-center">
-            <img
-              src="/aboutus.jpg"
-              alt="About Summit"
-              className="rounded-2xl shadow-lg"
-            />
+          <Image
+            src="/aboutus.jpg"
+            alt="About Summit"
+            width={400}
+            height={300}
+            className="rounded-2xl shadow-lg object-cover"
+            priority
+          />
         </div>
       </div>
     </section>

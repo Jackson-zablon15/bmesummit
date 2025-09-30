@@ -1,7 +1,11 @@
 import React from "react";
 import Image from "next/image";
 
-const galleryImages = Array(8).fill("/galleryPlaceholder.jpg");
+const galleryImages = [
+  "/gallery1.jpg",
+  "/gallery2.jpg",
+  "/gallery3.jpg",
+];
 
 export default function Galleries() {
   return (

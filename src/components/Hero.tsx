@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 export default function Hero() {
-  const images = ["/back1.jpg", "/back2.jpg"];
+  const images = ["/back1.jpg", "/back2.jpg","/back3.jpg"];
   const [current, setCurrent] = useState(0);
   const [prev, setPrev] = useState(0);
   const [fading, setFading] = useState(false);

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 
 const navLinks = [
   { name: "About", href: "#about" },
@@ -17,7 +18,8 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full bg-blue-100 shadow-md z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
-        <span className="font-bold text-blue-900 text-lg">
+        <span className="flex items-center gap-2 font-bold text-blue-900 text-lg">
+          <Image src="/logo.png" alt="BME Connect Summit Logo" width={36} height={36} className="rounded-full" />
           BME Connect Summit
         </span>
 

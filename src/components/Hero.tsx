@@ -72,7 +72,7 @@ export default function Hero() {
               />
               <circle cx="12" cy="11" r="3" />
             </svg>
-            Muhas
+            SANTIKA HALL,Mwenge,Dsm
           </span>
           {/* Date */}
           <span className="flex items-center text-blue-100 text-base md:text-lg">
@@ -86,7 +86,7 @@ export default function Hero() {
               <rect x="3" y="4" width="18" height="18" rx="2" />
               <path d="M16 2v4M8 2v4M3 10h18" />
             </svg>
-            October 3, 2025
+            19-20 Dec, 2025
           </span>
         </div>
         <button className="bg-blue-800 text-white px-6 py-3 rounded-full shadow hover:bg-blue-900 transition">

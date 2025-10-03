@@ -10,18 +10,6 @@ const innovations = [
   image: "/bilimeasure.jpg",
     tags: ["Electronic", "Medical"],
   },
-  {
-    name: "AI-Based Heart Scanner",
-    description: "AI-assisted diagnosis for cardiovascular diseases.",
-  image: "/innovationPlaceholder.jpg",
-    tags: ["AI", "Imaging"],
-  },
-  {
-    name: "Portable Dialysis Kit",
-    description: "Compact, affordable dialysis solution for home use.",
-  image: "/innovationPlaceholder.jpg",
-    tags: ["Mechanical", "Electronic"],
-  },
 ];
 
 export default function Innovation() {
@@ -167,22 +155,6 @@ export default function Innovation() {
                   className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
                 />
               </label>
-              <div className="mb-4">
-                <span className="block text-blue-900 font-medium mb-2">Tags</span>
-                <div className="flex flex-wrap gap-3">
-                  {tagOptions.map((tag) => (
-                    <label key={tag} className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={form.tags.includes(tag)}
-                        onChange={() => handleTagChange(tag)}
-                        className="accent-blue-600 w-4 h-4"
-                      />
-                      <span className="text-blue-800 text-sm">{tag}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
               <button
                 type="submit"
                 className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold rounded-lg py-2 mt-2 transition cursor-pointer"

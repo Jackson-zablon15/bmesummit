@@ -3,7 +3,7 @@
 
 export default function Attendees() {
   const stats = [
-    { number: "500+", label: "Students" },
+    { number: "500+", label: "Members" },
     { number: "10+", label: "Startups" },
     { number: "5+", label: "Universities" },
     { number: "15+", label: "Hospitals" },

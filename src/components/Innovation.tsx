@@ -5,10 +5,10 @@ import Image from "next/image";
 
 const innovations = [
   {
-    name: "Smart Glucose Monitor",
-    description: "Real-time blood sugar tracking for diabetic patients.",
-  image: "/innovationPlaceholder.jpg",
-    tags: ["Electronic", "AI"],
+    name: "BiliMeasure",
+    description: "A non invansive device that measure billirubin level to neonates",
+  image: "/bilimeasure.jpg",
+    tags: ["Electronic", "Medical"],
   },
   {
     name: "AI-Based Heart Scanner",

@@ -20,24 +20,24 @@ export default function About() {
 
           {/* Highlights */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 bg-white shadow-md rounded-xl">
-              <span className="text-2xl">🤝</span>
+            <div className="p-4 bg-white shadow-md rounded-xl flex flex-col items-center">
+              <Image src="/networking.jpg" alt="Networking icon" width={32} height={32} className="mb-2" />
               <h3 className="font-semibold text-blue-900">Networking</h3>
               <p className="text-sm text-blue-700">Connect with peers & experts.</p>
             </div>
-            <div className="p-4 bg-white shadow-md rounded-xl">
-              <span className="text-2xl">💡</span>
+            <div className="p-4 bg-white shadow-md rounded-xl flex flex-col items-center">
+              <Image src="/innovation.jpg" alt="Innovation icon" width={32} height={32} className="mb-2" />
               <h3 className="font-semibold text-blue-900">Innovation</h3>
               <p className="text-sm text-blue-700">Discover new biomedical solutions.</p>
             </div>
-            <div className="p-4 bg-white shadow-md rounded-xl">
-              <span className="text-2xl">🎓</span>
-              <h3 className="font-semibold text-blue-900">Knowledge</h3>
+            <div className="p-4 bg-white shadow-md rounded-xl flex flex-col items-center">
+              <Image src="/training.jpg" alt="Training icon" width={32} height={32} className="mb-2" />
+              <h3 className="font-semibold text-blue-900">Training</h3>
               <p className="text-sm text-blue-700">Workshops, panels & keynotes.</p>
             </div>
-            <div className="p-4 bg-white shadow-md rounded-xl">
-              <span className="text-2xl">🌍</span>
-              <h3 className="font-semibold text-blue-900">Global Impact</h3>
+            <div className="p-4 bg-white shadow-md rounded-xl flex flex-col items-center">
+              <Image src="/exhibition.jpg" alt="Exhibitions icon" width={32} height={32} className="mb-2" />
+              <h3 className="font-semibold text-blue-900">Exhibitions</h3>
               <p className="text-sm text-blue-700">Transforming healthcare worldwide.</p>
             </div>
           </div>

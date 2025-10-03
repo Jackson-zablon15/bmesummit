@@ -13,7 +13,7 @@ export default function Footer() {
             <li><a href="#about" className="hover:underline hover:text-blue-600 transition">About</a></li>
             <li><a href="#registration" className="hover:underline hover:text-blue-600 transition">Registration</a></li>
             <li><a href="#innovation" className="hover:underline hover:text-blue-600 transition">Innovation</a></li>
-            <li><a href="#galleries" className="hover:underline hover:text-blue-600 transition">Galleries</a></li>
+            <li><a href="#galleries" className="hover:underline hover:text-blue-600 transition">Gallery</a></li>
           </ul>
         </div>
         {/* Social Media */}

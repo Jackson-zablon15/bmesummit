@@ -11,8 +11,8 @@ export default function Galleries() {
   return (
     <section id="galleries" className="bg-gray-50 py-16">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center">Event Highlights</h2>
-        <p className="text-blue-800 text-center mb-12">Take a look at the exciting moments captured during the event.</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center">Gallery</h2>
+        <p className="text-blue-800 text-center mb-12">Take a look at the exciting gallery catalog.</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {galleryImages.map((img, idx) => (
             <div key={idx} className="w-full h-48 md:h-56 relative overflow-hidden rounded-xl shadow-md hover:scale-105 hover:shadow-lg transition duration-300">

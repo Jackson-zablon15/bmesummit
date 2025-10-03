@@ -27,7 +27,7 @@ export default function Footer() {
             <a href="#" className="hover:text-blue-600 transition" aria-label="Twitter">
               <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" className="text-blue-900"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 22.4 1.64a9.09 9.09 0 0 1-2.88 1.1A4.52 4.52 0 0 0 16.5 1c-2.5 0-4.5 2.01-4.5 4.5 0 .35.04.69.1 1.02A12.94 12.94 0 0 1 3 2.1a4.48 4.48 0 0 0-.61 2.27c0 1.57.8 2.96 2.02 3.77A4.48 4.48 0 0 1 2 7.14v.06c0 2.2 1.56 4.03 3.64 4.45-.38.1-.78.16-1.19.16-.29 0-.57-.03-.85-.08.57 1.78 2.23 3.08 4.2 3.12A9.05 9.05 0 0 1 2 19.54a12.94 12.94 0 0 0 7 2.05c8.4 0 13-6.96 13-13v-.59A9.18 9.18 0 0 0 23 3z"/></svg>
             </a>
-            <a href="#" className="hover:text-blue-600 transition" aria-label="Instagram">
+            <a href="https://www.instagram.com/bmeconnectsummit/" className="hover:text-blue-600 transition" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
               <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" className="text-blue-900"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8a4 4 0 0 1 3.37 3.37z"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg>
             </a>
           </div>

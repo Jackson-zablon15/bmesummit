@@ -65,7 +65,7 @@ export default function SponsorsSection() {
           >
             {/* Email icon */}
             <a
-              href="mailto:info@bmesummit.com"
+              href="mailto:info@bmesummit.org"
               className={`mb-2 bg-white rounded-full shadow-lg p-3 text-blue-800 border border-blue-200 transition-all duration-500 ease-in-out flex items-center justify-center
                 ${showIcons ? "opacity-100 -translate-x-12 -translate-y-16 rotate-[-18deg]" : "opacity-0 translate-x-0 translate-y-0 rotate-0"}`}
               style={{ transitionDelay: showIcons ? "100ms" : "0ms" }}
@@ -88,7 +88,7 @@ export default function SponsorsSection() {
 
             {/* WhatsApp icon */}
             <a
-              href="https://wa.me/0758758153"
+              href="https://wa.me/+255758758153"
               className={`bg-white rounded-full shadow-lg p-3 text-green-600 border border-green-200 transition-all duration-500 ease-in-out flex items-center justify-center
                 ${showIcons ? 'opacity-100 translate-x-12 -translate-y-16 rotate-[18deg]' : 'opacity-0 translate-x-0 translate-y-0 rotate-0'}`}
               style={{ transitionDelay: showIcons ? '250ms' : '0ms' }}

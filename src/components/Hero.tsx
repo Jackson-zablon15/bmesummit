@@ -1,63 +1,110 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 export default function Hero() {
-  const images = ["/back1.jpg", "/back2.jpg","/back3.jpg"];
+  const images = ["/back1.jpg", "/back2.jpg", "/back3.jpg"];
   const [current, setCurrent] = useState(0);
   const [prev, setPrev] = useState(0);
-  const [fading, setFading] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const currentRef = useRef(current);
+  const timeoutRef = useRef<number | null>(null);
+
+  // durations (ms)
+  const fadeDuration = 1000; // crossfade duration
+  const displayDuration = 5000; // how long each slide stays
+
+  // keep currentRef in sync
+  useEffect(() => {
+    currentRef.current = current;
+  }, [current]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setPrev(current);
-      setCurrent((prevIndex) => (prevIndex + 1) % images.length);
-      setFading(true);
-      const timeout = setTimeout(() => setFading(false), 2500);
-      return () => clearTimeout(timeout);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, [current, images.length]);
+    const intervalId = setInterval(() => {
+      const next = (currentRef.current + 1) % images.length;
+
+      // set prev to the currently visible image
+      setPrev(currentRef.current);
+
+      // show the next image (on top) and start transition
+      setCurrent(next);
+      setIsTransitioning(true);
+
+      // clear any prior timeout
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      // after fade completes, stop transitioning and update prev to match current
+      timeoutRef.current = window.setTimeout(() => {
+        setIsTransitioning(false);
+        setPrev(next);
+        timeoutRef.current = null;
+      }, fadeDuration);
+
+      // update ref
+      currentRef.current = next;
+    }, displayDuration);
+
+    return () => {
+      clearInterval(intervalId);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [images.length]);
 
   return (
-    <div className="w-full min-h-[100vh] relative bg-black overflow-hidden flex items-center">
-      {/* Previous image fading out */}
-      <div
-        className={`absolute inset-0 w-full h-full z-0 bg-center bg-no-repeat transition-opacity duration-[2500ms] ${
-          fading ? "opacity-0" : "opacity-100"
-        }`}
-        style={{
-          backgroundImage: `url(${images[prev]})`,
-          backgroundSize: "cover",
-        }}
-      >
-        <div className="absolute inset-0 bg-blue-900/30" />
+    <section
+      aria-label="Hero"
+      className="
+        relative w-full overflow-hidden flex items-center 
+        justify-center md:justify-start
+        px-6 sm:px-8 md:px-24
+        py-16 sm:py-20 md:py-28 lg:py-32
+        min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] lg:min-h-[90vh]
+      "
+    >
+      {/* Background images (prev + current) */}
+      <div className="absolute inset-0 w-full h-full z-0">
+        {/* Both images always present, only opacity changes */}
+        <div className="absolute inset-0 w-full h-full">
+          <Image
+            src={images[prev]}
+            alt={`background ${prev + 1}`}
+            fill
+            priority
+            unoptimized
+            className={`object-cover transition-opacity duration-[1000ms] ${isTransitioning ? "opacity-0" : "opacity-100"}`}
+            style={{ zIndex: 1 }}
+          />
+          <Image
+            src={images[current]}
+            alt={`background ${current + 1}`}
+            fill
+            priority
+            unoptimized
+            className={`object-cover transition-opacity duration-[1000ms] ${isTransitioning ? "opacity-100" : "opacity-0"}`}
+            style={{ zIndex: 2 }}
+          />
+        </div>
+        {/* Overlay always above both images */}
+        <div className="absolute inset-0 bg-blue-900/30 pointer-events-none" style={{ zIndex: 3 }} />
       </div>
 
-      {/* Current image fading in */}
-      <div
-        className={`absolute inset-0 w-full h-full z-0 bg-center bg-no-repeat transition-opacity duration-[2500ms] ${
-          fading ? "opacity-100" : "opacity-0"
-        }`}
-        style={{
-          backgroundImage: `url(${images[current]})`,
-          backgroundSize: "cover",
-        }}
-      >
-        <div className="absolute inset-0 bg-blue-900/30" />
-      </div>
-
-
-      <div className="absolute top-1/2 left-0 z-10 flex flex-col items-start pl-8 md:pl-24 -translate-y-1/2">
-        <h1 className="text-4xl md:text-6xl font-bold text-blue-100 mb-4 leading-tight">
+      {/* Content */}
+      <div className="relative z-10 max-w-2xl w-full text-center md:text-left">
+        <h1 className="text-4xl md:text-6xl font-bold text-white mb-2 leading-tight">
           Welcome to <br /> BME Connect Summit
         </h1>
-        <p className="text-lg md:text-2xl text-blue-100 mb-4 max-w-xl">
+
+        <p className="text-lg md:text-2xl text-white mb-4 max-w-xl mx-auto md:mx-0">
           Uniting BME with opportunities.
         </p>
-        <div className="flex items-center gap-6 mb-6">
+
+        <div className="flex flex-col sm:flex-row items-center sm:items-center gap-3 sm:gap-6 mb-6 justify-center md:justify-start">
           {/* Location */}
-          <span className="flex items-center text-blue-100 text-base md:text-lg">
+          <span className="flex items-center text-white text-base md:text-lg">
             <svg
               className="w-5 h-5 mr-1 text-blue-200"
               fill="none"
@@ -72,10 +119,11 @@ export default function Hero() {
               />
               <circle cx="12" cy="11" r="3" />
             </svg>
-            SANTIKA HALL,Mwenge,Dsm
+            SANTIKA HALL, Mwenge, Dsm
           </span>
+
           {/* Date */}
-          <span className="flex items-center text-blue-100 text-base md:text-lg">
+          <span className="flex items-center text-white text-base md:text-lg">
             <svg
               className="w-5 h-5 mr-1 text-blue-200"
               fill="none"
@@ -89,10 +137,16 @@ export default function Hero() {
             19-20 Dec, 2025
           </span>
         </div>
-        <button className="bg-blue-800 text-white px-6 py-3 rounded-full shadow hover:bg-blue-900 transition">
-          Register Now
-        </button>
+
+        <div className="flex items-center justify-center md:justify-start gap-4">
+          <a
+            href="#registration"
+            className="bg-blue-800 text-white px-4 py-2 rounded-full shadow hover:bg-blue-900 text-sm md:text-base transition text-center"
+          >
+            Register Now
+          </a>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

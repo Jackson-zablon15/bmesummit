@@ -48,7 +48,6 @@ export default function Innovation() {
       setForm((f) => ({ ...f, [name]: value }));
     }
   }
-
   function handleTagChange(tag: string) {
     setForm((f) => ({
       ...f,
@@ -59,14 +58,6 @@ export default function Innovation() {
   }
 
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      setShowForm(false);
-      setForm({ name: "", photo: null, description: "", tags: [] });
-      alert("Application submitted!");
-    }, 1200);
   function validate() {
     let valid = true;
     let newErrors = { name: "", photo: "", description: "", tags: "" };

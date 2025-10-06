@@ -10,8 +10,10 @@ export default function Footer() {
       <div className="flex flex-col md:flex-row justify-between items-start gap-8">
         {/* Logo and Copyright */}
   <div className="flex flex-col items-start w-full md:w-1/4 mb-8 md:mb-0">
-          <Image src="/logo.jpg" alt="BME Connect Summit Logo" width={48} height={48} className="rounded-full mb-2" />
+  <div className="flex align-center justify-center gap-3">
+ <Image src="/logo.jpg" alt="BME Connect Summit Logo" width={48} height={48} className="rounded-full mb-2" />
           <span className="text-xl font-bold tracking-wide">BME Connect Summit</span>
+  </div>
           <span className="text-xs text-blue-700 mt-2 flex items-center gap-1">
             <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1.5" fill="none"/><text x="6" y="15" fontSize="10" fill="currentColor">©</text></svg>
             2025 All rights reserved.

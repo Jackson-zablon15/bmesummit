@@ -24,7 +24,7 @@ export default function Galleries() {
         </p>
 
         {/* Marquee gallery with horizontal scroll */}
-  <div className="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 hide-scrollbar">
+        <div className="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 hide-scrollbar">
           <div className="flex gap-6 animate-marquee whitespace-nowrap min-w-max">
             {galleryImages.concat(galleryImages).map((img, idx) => (
               <div key={idx} className="inline-block">

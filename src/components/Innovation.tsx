@@ -1,12 +1,12 @@
-  "use client";
-  import React, { useState } from "react";
-  import Image from "next/image";
+"use client";
+import React, { useState } from "react";
+import Image from "next/image";
 
 const innovations = [
   {
     name: "BiliMeasure",
     description: "A non invansive device that measure billirubin level to neonates",
-  image: "/bilimeasure.jpg",
+    image: "/bilimeasure.jpg",
     tags: ["Electronic", "Medical"],
   },
 ];
@@ -32,7 +32,6 @@ export default function Innovation() {
     tags: "",
   });
 
-  // Simple sanitization function
   function sanitize(input: string) {
     return input.replace(/<[^>]*>?/gm, "").trim();
   }
@@ -40,14 +39,14 @@ export default function Innovation() {
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value, type } = e.target;
     if (type === "file") {
-  setForm((f: typeof form) => ({ ...f, photo: (e.target as HTMLInputElement).files?.[0] || null }));
+      setForm((f: typeof form) => ({ ...f, photo: (e.target as HTMLInputElement).files?.[0] || null }));
     } else {
-  setForm((f: typeof form) => ({ ...f, [name]: value }));
+      setForm((f: typeof form) => ({ ...f, [name]: value }));
     }
   }
 
   function validate() {
-  let valid = true;
+    let valid = true;
     const newErrors = { name: "", photo: "", description: "", tags: "" };
     if (!form.name.trim()) {
       newErrors.name = "Innovation name is required.";
@@ -77,17 +76,16 @@ export default function Innovation() {
     setErrors(newErrors);
     return valid;
   }
-  
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Sanitize all fields
     const sanitized = {
       name: sanitize(form.name),
       description: sanitize(form.description),
       tags: form.tags.map(sanitize),
       photo: form.photo,
     };
-  setForm((prev: typeof form) => ({ ...prev, ...sanitized }));
+    setForm((prev: typeof form) => ({ ...prev, ...sanitized }));
     if (validate()) {
       setSubmitting(true);
       setTimeout(() => {
@@ -102,6 +100,7 @@ export default function Innovation() {
   return (
     <section id="innovation" className="bg-white py-16">
       <div className="max-w-7xl mx-auto px-6">
+        {/* ===== Innovations Section ===== */}
         <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4 text-center">Innovations Showcase</h2>
         <p className="text-blue-800 text-center mb-10">
           Discover cutting-edge biomedical innovations from talented participants and teams. Learn about their solutions and apply to be part of the next big idea.
@@ -141,7 +140,40 @@ export default function Innovation() {
           </button>
         </div>
 
-        {/* Modal Form */}
+        {/* ===== Abstracts Section ===== */}
+        <div className="mt-20">
+          <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4 text-center">Abstracts</h2>
+           <p className="text-blue-800 text-center mb-10">
+          Get a chance to present your abstract at the summit. Submit your research abstracts and showcase your work to a wider audience.
+        </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+            <div className="bg-white rounded-xl shadow-md hover:shadow-lg transform hover:scale-105 transition duration-300 p-4 flex flex-col w-full max-w-sm">
+              <div className="w-full h-48 relative">
+                <Image
+                  src="/abstract1.jpg"
+                  alt="Abstract 1"
+                  fill
+                  className="object-cover rounded-t-xl"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  priority
+                />
+              </div>
+              <p className="text-blue-800 mt-4 text-center">
+                Advancing Equity through Climate-Resilient Malaria Solutions in Sub-Saharan Africa: A Comprehensive Desk Review
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-center mt-6">
+            <button
+              className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-6 py-3 font-semibold cursor-pointer transition"
+              onClick={() => setShowForm(true)}
+            >
+              Apply Now
+            </button>
+          </div>
+        </div>
+
+        {/* ===== Modal Form ===== */}
         {showForm && (
           <div
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
@@ -160,9 +192,9 @@ export default function Innovation() {
               >
                 ×
               </button>
-              <h3 className="text-xl font-bold text-blue-900 mb-4 text-center">Apply Your Innovation</h3>
+              <h3 className="text-xl font-bold text-blue-900 mb-4 text-center">Apply Your Abstract</h3>
               <label className="block mb-3">
-                <span className="block text-blue-900 font-medium mb-1">Name of Innovation</span>
+                <span className="block text-blue-900 font-medium mb-1">Name of Abstract</span>
                 <input
                   type="text"
                   name="name"
@@ -172,10 +204,10 @@ export default function Innovation() {
                   placeholder="Enter innovation name"
                   className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
                 />
-                </label>
-                {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+              </label>
+              {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
               <label className="block mb-3">
-                <span className="block text-blue-900 font-medium mb-1">Photo of Innovation</span>
+                <span className="block text-blue-900 font-medium mb-1">Photo of Abstract</span>
                 <input
                   type="file"
                   name="photo"
@@ -184,8 +216,8 @@ export default function Innovation() {
                   className="w-full border border-blue-200 rounded-lg px-4 py-2 bg-white placeholder-gray-400 text-black"
                   placeholder="Upload photo"
                 />
-                </label>
-                {errors.photo && <p className="text-red-500 text-xs mt-1">{errors.photo}</p>}
+              </label>
+              {errors.photo && <p className="text-red-500 text-xs mt-1">{errors.photo}</p>}
               <label className="block mb-3">
                 <span className="block text-blue-900 font-medium mb-1">Description</span>
                 <textarea
@@ -197,9 +229,8 @@ export default function Innovation() {
                   placeholder="Describe your innovation"
                   className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
                 />
-                </label>
-                {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
-              {/* Tag selection validation */}
+              </label>
+              {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
               {errors.tags && <p className="text-red-500 text-xs mb-2">{errors.tags}</p>}
               <button
                 type="submit"

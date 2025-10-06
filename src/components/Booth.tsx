@@ -2,9 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 const boothImages = [
-  "/booth1.jpg",
   "/booth2.jpg",
-  "/booth3.jpg",
 ];
 
 export default function Booth() {
@@ -32,7 +30,7 @@ export default function Booth() {
         </div>
         <div className="flex justify-center">
           <a
-            href="https://wa.me/255758758153"
+            href="https://wa.me/255674902811"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-3 rounded-lg font-semibold text-lg shadow text-center"

@@ -34,6 +34,7 @@ export default function Footer() {
           <h3 className="text-lg font-bold mb-3">Address</h3>
           <p className="mb-1">Dar es Salaam</p>
           <p className="mb-1">Phone: <a href="tel:+255758758153" className="hover:underline text-blue-700">+255758758153</a></p>
+            <p className="mb-1">Phone: <a href="tel:+255758758153" className="hover:underline text-blue-700">+255628342514</a></p>
           <p>Email: <a href="mailto:info@bmeconnectsummit.org" className="hover:underline text-blue-700">info@bmeconnectsummit.org</a></p>
         </div>
 

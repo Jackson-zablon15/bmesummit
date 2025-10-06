@@ -21,8 +21,8 @@ export default function Registration() {
   }
 
   function validate() {
-    let valid = true;
-    let newErrors = { name: "", email: "", phone: "", organization: "" };
+  let valid = true;
+  const newErrors = { name: "", email: "", phone: "", organization: "" };
     if (!form.name.trim()) {
       newErrors.name = "Full name is required.";
       valid = false;

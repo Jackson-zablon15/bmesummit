@@ -1,7 +1,6 @@
-
-"use client";
-import React, { useState } from "react";
-import Image from "next/image";
+  "use client";
+  import React, { useState } from "react";
+  import Image from "next/image";
 
 const innovations = [
   {
@@ -38,29 +37,18 @@ export default function Innovation() {
     return input.replace(/<[^>]*>?/gm, "").trim();
   }
 
-  const tagOptions = ["Electronic", "AI", "Mechanical", "Imaging"];
-
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value, type } = e.target;
     if (type === "file") {
-      setForm((f) => ({ ...f, photo: (e.target as HTMLInputElement).files?.[0] || null }));
+  setForm((f: typeof form) => ({ ...f, photo: (e.target as HTMLInputElement).files?.[0] || null }));
     } else {
-      setForm((f) => ({ ...f, [name]: value }));
+  setForm((f: typeof form) => ({ ...f, [name]: value }));
     }
   }
-  function handleTagChange(tag: string) {
-    setForm((f) => ({
-      ...f,
-      tags: f.tags.includes(tag)
-        ? f.tags.filter((t) => t !== tag)
-        : [...f.tags, tag],
-    }));
-  }
 
-  function handleSubmit(e: React.FormEvent) {
   function validate() {
-    let valid = true;
-    let newErrors = { name: "", photo: "", description: "", tags: "" };
+  let valid = true;
+    const newErrors = { name: "", photo: "", description: "", tags: "" };
     if (!form.name.trim()) {
       newErrors.name = "Innovation name is required.";
       valid = false;
@@ -99,7 +87,7 @@ export default function Innovation() {
       tags: form.tags.map(sanitize),
       photo: form.photo,
     };
-    setForm((prev) => ({ ...prev, ...sanitized }));
+  setForm((prev: typeof form) => ({ ...prev, ...sanitized }));
     if (validate()) {
       setSubmitting(true);
       setTimeout(() => {
@@ -109,7 +97,6 @@ export default function Innovation() {
         alert("Application submitted!");
       }, 1200);
     }
-  }
   }
 
   return (

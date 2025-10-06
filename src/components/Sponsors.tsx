@@ -5,7 +5,7 @@ import Image from "next/image";
 const studentStartups = [
   {
     name: "ChuoMarket",
-    logo: "/chuoMarket.png", 
+    logo: "/chuomarket.png", 
     description: "Buy and Sell goods and services online with ease. ChuoMarket is a user-friendly platform that connects buyers and sellers within the academic community. Join ChuoMarket today and experience hassle-free buying and selling at your fingertips!",
   },
   {
@@ -140,8 +140,8 @@ export default function SponsorsSection() {
                   <Image
                     src={startup.logo}
                     alt={startup.name + " logo"}
-                    width={140}
-                    height={140}
+                    width={80}
+                    height={80}
                     className="object-contain h-36 w-36 rounded-full"
                   />
                 ) : (

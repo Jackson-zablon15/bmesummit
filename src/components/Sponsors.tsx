@@ -2,13 +2,20 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-const sponsors = [
+const studentStartups = [
   {
-    name: "Action Medeor",
-    logo: "/actionmedeor.png",
-    description:
-      "A humanitarian pharmaceutical and health technology organization improving access to essential medicines, medical supplies and diagnostics across Tanzania. They also run training programs and produce reagents locally to strengthen healthcare systems.",
+    name: "ChuoMarket",
+    logo: "/chuoMarket.png", 
+    description: "Buy and Sell goods and services online with ease. ChuoMarket is a user-friendly platform that connects buyers and sellers within the academic community. Join ChuoMarket today and experience hassle-free buying and selling at your fingertips!",
   },
+  {
+    name: "ZetuMED",
+    logo: "/zetumedi.png",
+    description: "Biomedical startup focused on innovative healthcare solutions. We also provide training to biomedical engineering students on medical equipment maintenance and repair.",
+  },
+];
+
+const sponsors = [
   {
     name: "Hyper Med",
     logo: "/hyperMed.jpg",
@@ -111,6 +118,48 @@ export default function SponsorsSection() {
           >
             Become a Sponsor
           </button>
+        </div>
+      </section>
+
+      {/* Students Startups Section */}
+      <section className="py-16 px-4 bg-blue-50">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-blue-900">
+          Students Startups
+        </h2>
+
+        {/* Startups Cards */}
+        <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
+          {studentStartups.map((startup, idx) => (
+            <div
+              key={startup.name}
+              className="group bg-white border border-blue-100 rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl relative overflow-hidden min-h-[300px] w-64"
+            >
+              {/* Logo (visible initially, fades out on hover) */}
+              <div className="transition-all duration-500 ease-in-out group-hover:opacity-0 group-hover:scale-90">
+                {startup.logo ? (
+                  <Image
+                    src={startup.logo}
+                    alt={startup.name + " logo"}
+                    width={140}
+                    height={140}
+                    className="object-contain h-36 w-36 rounded-full"
+                  />
+                ) : (
+                  <div className="bg-blue-100 rounded-full h-36 w-36 flex items-center justify-center text-4xl font-bold text-blue-700">
+                    S{idx + 1}
+                  </div>
+                )}
+              </div>
+
+              {/* Name + Description (hidden initially, fades in on hover) */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center opacity-0 scale-90 transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:scale-100">
+                <div className="text-lg font-semibold text-blue-900 mb-2">
+                  {startup.name}
+                </div>
+                <div className="text-sm text-blue-800">{startup.description}</div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </>

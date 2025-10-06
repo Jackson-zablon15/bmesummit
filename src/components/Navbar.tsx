@@ -9,7 +9,7 @@ const navLinks = [
   { name: "Innovation", href: "#innovation" },
   { name: "Partners and Sponsors", href: "#partners" },
   { name: "Gallery", href: "#galleries" },
-  { name: "Contact", href: "#contact" },
+  { name: "Contact", href: "#footer" },
 ];
 
 export default function Navbar() {
@@ -19,7 +19,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full bg-blue-100 shadow-md z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
         <span className="flex items-center gap-2 font-bold text-blue-900 text-lg">
-          <Image src="/logo.png" alt="BME Connect Summit Logo" width={36} height={36} className="rounded-full" />
+          <Image src="/logo.jpg" alt="BME Connect Summit Logo" width={36} height={36} className="rounded-full" />
           BME Connect Summit
         </span>
 

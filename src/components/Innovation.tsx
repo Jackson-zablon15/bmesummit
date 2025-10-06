@@ -26,6 +26,17 @@ export default function Innovation() {
     tags: [],
   });
   const [submitting, setSubmitting] = useState(false);
+  const [errors, setErrors] = useState({
+    name: "",
+    photo: "",
+    description: "",
+    tags: "",
+  });
+
+  // Simple sanitization function
+  function sanitize(input: string) {
+    return input.replace(/<[^>]*>?/gm, "").trim();
+  }
 
   const tagOptions = ["Electronic", "AI", "Mechanical", "Imaging"];
 
@@ -56,6 +67,58 @@ export default function Innovation() {
       setForm({ name: "", photo: null, description: "", tags: [] });
       alert("Application submitted!");
     }, 1200);
+  function validate() {
+    let valid = true;
+    let newErrors = { name: "", photo: "", description: "", tags: "" };
+    if (!form.name.trim()) {
+      newErrors.name = "Innovation name is required.";
+      valid = false;
+    } else if (!/^[\w\s.'-]{2,}$/.test(form.name)) {
+      newErrors.name = "Name contains invalid characters.";
+      valid = false;
+    }
+    if (!form.description.trim()) {
+      newErrors.description = "Description is required.";
+      valid = false;
+    } else if (form.description.length < 10) {
+      newErrors.description = "Description is too short.";
+      valid = false;
+    }
+    if (!form.photo) {
+      newErrors.photo = "Photo is required.";
+      valid = false;
+    } else if (form.photo && !form.photo.type.startsWith("image/")) {
+      newErrors.photo = "File must be an image.";
+      valid = false;
+    }
+    if (form.tags.length === 0) {
+      newErrors.tags = "Select at least one tag.";
+      valid = false;
+    }
+    setErrors(newErrors);
+    return valid;
+  }
+  
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    // Sanitize all fields
+    const sanitized = {
+      name: sanitize(form.name),
+      description: sanitize(form.description),
+      tags: form.tags.map(sanitize),
+      photo: form.photo,
+    };
+    setForm((prev) => ({ ...prev, ...sanitized }));
+    if (validate()) {
+      setSubmitting(true);
+      setTimeout(() => {
+        setSubmitting(false);
+        setShowForm(false);
+        setForm({ name: "", photo: null, description: "", tags: [] });
+        alert("Application submitted!");
+      }, 1200);
+    }
+  }
   }
 
   return (
@@ -129,9 +192,10 @@ export default function Innovation() {
                   onChange={handleChange}
                   required
                   placeholder="Enter innovation name"
-                  className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
+                  className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
                 />
-              </label>
+                </label>
+                {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
               <label className="block mb-3">
                 <span className="block text-blue-900 font-medium mb-1">Photo of Innovation</span>
                 <input
@@ -139,10 +203,11 @@ export default function Innovation() {
                   name="photo"
                   accept="image/*"
                   onChange={handleChange}
-                  className="w-full border border-blue-200 rounded-lg px-4 py-2 bg-white placeholder-gray-400"
+                  className="w-full border border-blue-200 rounded-lg px-4 py-2 bg-white placeholder-gray-400 text-black"
                   placeholder="Upload photo"
                 />
-              </label>
+                </label>
+                {errors.photo && <p className="text-red-500 text-xs mt-1">{errors.photo}</p>}
               <label className="block mb-3">
                 <span className="block text-blue-900 font-medium mb-1">Description</span>
                 <textarea
@@ -152,9 +217,12 @@ export default function Innovation() {
                   required
                   rows={3}
                   placeholder="Describe your innovation"
-                  className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
+                  className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
                 />
-              </label>
+                </label>
+                {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
+              {/* Tag selection validation */}
+              {errors.tags && <p className="text-red-500 text-xs mb-2">{errors.tags}</p>}
               <button
                 type="submit"
                 className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold rounded-lg py-2 mt-2 transition cursor-pointer"

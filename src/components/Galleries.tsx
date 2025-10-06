@@ -1,3 +1,4 @@
+
 import React from "react";
 import Image from "next/image";
 
@@ -7,6 +8,8 @@ const galleryImages = [
   "/gallery3.jpg",
   "/gallery4.jpg",
   "/gallery5.jpg",
+  "/gallery6.jpg",
+  "/gallery7.jpg",
 ];
 
 export default function Galleries() {
@@ -20,26 +23,22 @@ export default function Galleries() {
           Take a look at the exciting gallery catalog.
         </p>
 
-        {/* Flexbox gallery */}
-        <div className="flex flex-wrap gap-6 justify-center">
-          {galleryImages.map((img, idx) => (
-            <Image
-              key={idx}
-              src={img}
-              alt={`Gallery item ${idx + 1}`}
-              width={300}   // adjust width as needed
-              height={200}  // preserves aspect ratio
-              className="rounded-xl border border-gray-200 shadow-md hover:shadow-lg transition duration-300 object-cover cursor-pointer hover:scale-105"
-              priority={idx === 0}
-            />
-          ))}
-        </div>
-
-        {/* Button */}
-        <div className="flex justify-center">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold mt-8">
-            View More Photos
-          </button>
+        {/* Marquee gallery with horizontal scroll */}
+  <div className="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 hide-scrollbar">
+          <div className="flex gap-6 animate-marquee whitespace-nowrap min-w-max">
+            {galleryImages.concat(galleryImages).map((img, idx) => (
+              <div key={idx} className="inline-block">
+                <Image
+                  src={img}
+                  alt={`Gallery item ${idx + 1}`}
+                  width={300}
+                  height={200}
+                  className="rounded-xl border border-gray-200 shadow-md hover:shadow-lg transition duration-300 object-cover cursor-pointer hover:scale-105"
+                  priority={idx === 0}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

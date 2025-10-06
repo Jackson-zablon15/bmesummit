@@ -12,10 +12,11 @@ export default function About() {
             About BME Connect Summit
           </h2>
           <p className="text-blue-800 leading-relaxed mb-6">
-            The BME Connect Summit is a premier gathering of biomedical engineers, 
-            innovators, healthcare professionals, and industry leaders. Our mission 
-            is to foster collaboration, showcase cutting-edge innovations, and create 
-            opportunities that drive advancements in healthcare technology.
+            About the BME CONNECT SUMMIT
+The BME CONNECT SUMMIT is Tanzania’s premier annual gathering that unites Biomedical Engineering students with Engineers,technicians, professionals, companies,  hospitals,policy makers,industry leaders and investors from across the country. <br />
+More  than 500 students from leading institutions such as MUHAS, MUST, DIT, ATC, and Mvumi Institute of Health Sciences and other participants come together for a two-day transformative experience of learning, innovation, networking, and collaboration. <br />
+The Summit equips the next generation of biomedical innovators with competence-based skills in technology, entrepreneurship, and leadership, while offering direct engagement with industry leaders, policymakers, and investors. <br />
+Through exhibitions, mentorship sessions, and open discussions, participants gain the exposure and opportunities needed to turn their ideas into impactful solutions that advance Tanzania’s and Africa’s healthcare systems.
           </p>
 
           {/* Highlights */}

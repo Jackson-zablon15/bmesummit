@@ -4,6 +4,7 @@ import Hero from "../components/Hero";
 import About from "../components/About";
 import Calendar from "../components/Calendar";
 import Registration from "../components/Registration";
+import Booth from "../components/Booth";
 import Innovation from "../components/Innovation";
 import Sponsors from "../components/Sponsors";
 import Attendees from "../components/Attendees";
@@ -17,7 +18,8 @@ export default function Home() {
      <section id="hero"><Hero /></section>
       <section id="about"><About /></section>
       <section id="calendar"><Calendar /></section>
-      <section id="registration"><Registration /></section>
+  <section id="registration"><Registration /></section>
+  <section id="booth"><Booth /></section>
       <section id="innovation"><Innovation /></section>
   <section id="sponsors"><Sponsors /></section>
       <section id="attendees"><Attendees /></section>

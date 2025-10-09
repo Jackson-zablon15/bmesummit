@@ -6,14 +6,14 @@ const innovations = [
   {
     name: "BiliMeasure",
     description:
-      "A non invansive device that measure billirubin level to neonates",
+      "A non-invasive device that measures bilirubin levels in neonates, helping in early detection of jaundice.",
     image: "/bilimeasure.jpg",
     tags: ["Electronic", "Medical"],
   },
   {
     name: "eDevice Management",
     description:
-      "The project offers an AI-powered system that automates medical equipment tracking, maintenance, and performance monitoring to optimize utilization, reduce downtime, and lower operational costs.",
+      "An AI-powered system that automates medical equipment tracking, maintenance, and performance monitoring to optimize utilization, reduce downtime, and lower operational costs.",
     image: "/edevice.jpg",
     tags: ["Electronic", "Medical", "AI"],
   },
@@ -40,10 +40,6 @@ export default function Innovation() {
     description: "",
     tags: "",
   });
-
-  function sanitize(input: string) {
-    return input.replace(/<[^>]*>?/gm, "").trim();
-  }
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -106,15 +102,15 @@ export default function Innovation() {
           Discover cutting-edge biomedical innovations from talented participants and teams. Learn about their solutions and apply to be part of the next big idea.
         </p>
 
-        {/* ===== Marquee Animation for Cards ===== */}
-        <div className="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 hide-scrollbar">
-          <div className="flex gap-6 animate-marquee whitespace-nowrap min-w-max">
-            {innovations.concat(innovations).map((item, idx) => (
+        {/* ===== Horizontal Scroll Cards ===== */}
+        <div className="overflow-x-auto w-full hide-scrollbar">
+          <div className="flex gap-6 min-w-max">
+            {innovations.map((item, idx) => (
               <div
                 key={idx}
-                className="inline-block bg-white rounded-xl shadow-md hover:shadow-lg transform hover:scale-105 transition duration-300 p-4 w-80 align-top"
+                className="inline-block bg-white rounded-xl shadow-md hover:shadow-lg transform hover:scale-105 transition duration-300 w-80 overflow-hidden align-top"
               >
-                <div className="w-full h-48 relative">
+                <div className="w-full h-44 relative">
                   <Image
                     src={item.image}
                     alt={item.name}
@@ -124,19 +120,34 @@ export default function Innovation() {
                     priority
                   />
                 </div>
-                <h3 className="text-lg font-semibold text-blue-900 mt-4">
-                  {item.name}
-                </h3>
-                <p className="text-blue-800 mt-2 text-sm">{item.description}</p>
-                <div className="flex flex-wrap gap-2 mt-2 mb-2">
-                  {item.tags.map((tag, i) => (
-                    <span
-                      key={i}
-                      className="bg-blue-100 text-blue-700 text-xs font-medium px-3 py-1 rounded-full shadow-sm"
+
+                <div className="p-4 flex flex-col justify-between h-56">
+                  <div>
+                    <h3 className="text-lg font-semibold text-blue-900 mb-2 truncate">
+                      {item.name}
+                    </h3>
+                    <p
+                      className="text-blue-800 text-sm overflow-hidden text-ellipsis"
+                      style={{
+                        display: "-webkit-box",
+                        WebkitLineClamp: 4,
+                        WebkitBoxOrient: "vertical",
+                      }}
                     >
-                      {tag}
-                    </span>
-                  ))}
+                      {item.description}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {item.tags.map((tag, i) => (
+                      <span
+                        key={i}
+                        className="bg-blue-100 text-blue-700 text-xs font-medium px-3 py-1 rounded-full shadow-sm"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}

@@ -9,6 +9,7 @@ export default function Abstract() {
   const [abstractForm, setAbstractForm] = useState<{
     name: string;
     description: string;
+    photo?: File | null;
   }>({ name: "", description: "" });
 
   const [submitting, setSubmitting] = useState(false);
@@ -23,9 +24,8 @@ export default function Abstract() {
     if (type === "file") {
       setAbstractForm((f) => ({
         ...f,
-        // store file if needed later
-        // @ts-ignore
-        photo: (e.target as HTMLInputElement).files?.[0] || null,
+  // store file if needed later
+  photo: (e.target as HTMLInputElement).files?.[0] || null,
       }));
     } else {
       setAbstractForm((f) => ({ ...f, [name]: value }));
@@ -63,8 +63,8 @@ export default function Abstract() {
           headers: { "Content-Type": "application/json" },
         });
 
-        const json = await response.json();
-        // show a basic alert for now; we'll replace with a toast later
+  await response.json();
+  // show a basic alert for now; we'll replace with a toast later
         if (response.ok) {
           setToast({ message: "Abstract submitted successfully!", type: "success" });
           setAbstractForm({ name: "", description: "" });
@@ -72,8 +72,9 @@ export default function Abstract() {
         } else {
           setToast({ message: "Error submitting abstract. Please try again.", type: "error" });
         }
-      } catch (error: any) {
-        alert("Submission failed: " + error.message);
+      } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        alert("Submission failed: " + message);
       } finally {
         setSubmitting(false);
       }

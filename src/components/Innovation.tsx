@@ -27,6 +27,7 @@ export default function Innovation() {
   const [innovationForm, setInnovationForm] = useState<{
     name: string;
     description: string;
+    photo?: File | null;
   }>({ name: "", description: "" });
 
   const [submitting, setSubmitting] = useState(false);
@@ -41,11 +42,10 @@ export default function Innovation() {
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, type, value } = e.target as HTMLInputElement | HTMLTextAreaElement;
 
-    if (type === "file") {
+      if (type === "file") {
       setInnovationForm((f) => ({
         ...f,
-        // @ts-ignore
-        photo: (e.target as HTMLInputElement).files?.[0] || null,
+  photo: (e.target as HTMLInputElement).files?.[0] || null,
       }));
     } else {
       setInnovationForm((f) => ({ ...f, [name]: value }));
@@ -87,8 +87,9 @@ export default function Innovation() {
         } else {
           setToast({ message: "Error submitting form. Please try again.", type: "error" });
         }
-      } catch (error: any) {
-        setToast({ message: "Submission failed: " + error.message, type: "error" });
+      } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        setToast({ message: "Submission failed: " + message, type: "error" });
       } finally {
         setSubmitting(false);
         setInnovationForm({ name: "", description: "" });

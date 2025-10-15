@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 
 const boothImages = [
@@ -6,6 +7,7 @@ const boothImages = [
 ];
 
 export default function Booth() {
+  const [showDetails, setShowDetails] = useState(false);
   return (
     <section id="booth" className="py-16 bg-gray-50">
       <div className="max-w-5xl mx-auto px-4">
@@ -39,6 +41,46 @@ export default function Booth() {
             Apply for Booth
           </a>
         </div>
+
+        <div className="mt-6 text-center">
+          <button
+            type="button"
+            className="text-blue-700 hover:underline font-medium"
+            onClick={() => setShowDetails((s) => !s)}
+            aria-expanded={showDetails}
+            aria-controls="booth-details"
+          >
+            {showDetails ? "Read less" : "Read more"}
+          </button>
+        </div>
+
+        {showDetails && (
+          <div id="booth-details" className="mt-6 bg-white rounded-lg shadow-sm p-6 text-left">
+            <h3 className="text-xl font-semibold text-blue-900 mb-3">Booth Properties</h3>
+            <h4 className="text-blue-900 font-medium mb-2">BOOTH SPECIFICATION</h4>
+            <ul className="list-disc list-inside mb-3 text-sm text-gray-700">
+              <li>Booth Dimensions: 3 meters (length) × 3 meters (width)</li>
+              <li>Total Space: 9 square meters</li>
+              <li>Panel Design: Constructed using three (3) panels, each measuring 96 cm, forming a complete booth setup.</li>
+              <li>Height: 245 cm</li>
+              <li>Setup: Fully furnished and decorated exhibition booth for both days of the summit</li>
+            </ul>
+
+            <h4 className="text-blue-900 font-medium mb-2">Booth Sponsorship Package – TZS 650,000</h4>
+            <p className="mb-2 text-sm text-gray-700">Each booth sponsorship includes exclusive benefits such as:</p>
+            <ol className="list-decimal list-inside text-sm text-gray-700 space-y-1">
+              <li>Fully set-up and decorated exhibition booth (2 days)</li>
+              <li>Organization logo placement on the official BME Connect Summit website and digital platforms</li>
+              <li>Logo display on summit banners, posters, and event materials</li>
+              <li>Media visibility and branding during and after the event</li>
+              <li>Lunch and refreshments for two company representatives (both days)</li>
+              <li>Participation in student mentorship and innovation guidance sessions</li>
+              <li>Recognition as an Official Partner during the opening and closing ceremonies</li>
+              <li>Inclusion in the Post-Event Report and media highlights</li>
+              <li>Networking opportunities with policymakers, hospitals, innovators, and investors</li>
+            </ol>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -39,16 +39,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     const text = await response.text();
-    let parsed: any = null;
+    let parsed: unknown = null;
     try {
       parsed = JSON.parse(text);
-    } catch (err) {
+    } catch {
       // not JSON
     }
 
     // Return the raw text and parsed JSON (if any) to the client for debugging
     res.status(200).json({ raw: text, parsed });
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    res.status(500).json({ message });
   }
 }

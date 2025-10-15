@@ -6,6 +6,7 @@ import Calendar from "../components/Calendar";
 import Registration from "../components/Registration";
 import Booth from "../components/Booth";
 import Innovation from "../components/Innovation";
+import Abstract from "../components/abstract";
 import Sponsors from "../components/Sponsors";
 import Attendees from "../components/Attendees";
 import Galleries from "../components/Galleries";
@@ -20,7 +21,8 @@ export default function Home() {
       <section id="calendar"><Calendar /></section>
   <section id="registration"><Registration /></section>
   <section id="booth"><Booth /></section>
-      <section id="innovation"><Innovation /></section>
+    <section id="innovation"><Innovation /></section>
+    <section id="abstract"><Abstract /></section>
   <section id="sponsors"><Sponsors /></section>
       <section id="attendees"><Attendees /></section>
       <section id="galleries"><Galleries /></section>

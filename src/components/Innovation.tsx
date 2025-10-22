@@ -25,10 +25,14 @@ export default function Innovation() {
   const [showInnovationForm, setShowInnovationForm] = useState(false);
 
   const [innovationForm, setInnovationForm] = useState<{
-    name: string;
+    fullname: string;
+    institution: string;
+    phone: string;
+    email: string;
+    title: string;
     description: string;
     photo?: File | null;
-  }>({ name: "", description: "" });
+  }>({ fullname: "", institution: "", phone: "", email: "", title: "", description: "" });
 
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState({
@@ -72,13 +76,22 @@ export default function Innovation() {
     e.preventDefault();
     const formData = innovationForm;
 
-    if (validate(formData)) {
+    if (validate({ name: formData.title, description: formData.description })) {
       setSubmitting(true);
 
       try {
         const response = await fetch("/api/submit-innovation", {
           method: "POST",
-          body: JSON.stringify({ name: formData.name, description: formData.description }),
+          body: JSON.stringify({
+            fullname: formData.fullname,
+            institution: formData.institution,
+            phone: formData.phone,
+            email: formData.email,
+            title: formData.title,
+            description: formData.description,
+            sheet: "Innovations",
+            type: "innovation",
+          }),
           headers: { "Content-Type": "application/json" },
         });
 
@@ -92,7 +105,7 @@ export default function Innovation() {
         setToast({ message: "Submission failed: " + message, type: "error" });
       } finally {
         setSubmitting(false);
-        setInnovationForm({ name: "", description: "" });
+        setInnovationForm({ fullname: "", institution: "", phone: "", email: "", title: "", description: "" });
         setShowInnovationForm(false);
       }
     }
@@ -197,16 +210,66 @@ export default function Innovation() {
               </h3>
 
               <label className="block mb-3">
-                <span className="block text-blue-900 font-medium mb-1">
-                  Name of Innovation
-                </span>
+                <span className="block text-blue-900 font-medium mb-1">Full name</span>
                 <input
                   type="text"
-                  name="name"
-                  value={innovationForm.name}
+                  name="fullname"
+                  value={innovationForm.fullname}
                   onChange={handleChange}
                   required
-                  placeholder="Enter innovation name"
+                  placeholder="Your full name"
+                  className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
+                />
+              </label>
+
+              <label className="block mb-3">
+                <span className="block text-blue-900 font-medium mb-1">Institution</span>
+                <input
+                  type="text"
+                  name="institution"
+                  value={innovationForm.institution}
+                  onChange={handleChange}
+                  required
+                  placeholder="Organization / Institution"
+                  className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
+                />
+              </label>
+
+              <label className="block mb-3">
+                <span className="block text-blue-900 font-medium mb-1">Phone Number</span>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={innovationForm.phone}
+                  onChange={handleChange}
+                  required
+                  placeholder="Your phone number"
+                  className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
+                />
+              </label>
+
+              <label className="block mb-3">
+                <span className="block text-blue-900 font-medium mb-1">Email</span>
+                <input
+                  type="email"
+                  name="email"
+                  value={innovationForm.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="Your email address"
+                  className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
+                />
+              </label>
+
+              <label className="block mb-3">
+                <span className="block text-blue-900 font-medium mb-1">Title</span>
+                <input
+                  type="text"
+                  name="title"
+                  value={innovationForm.title}
+                  onChange={handleChange}
+                  required
+                  placeholder="Innovation title"
                   className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
                 />
               </label>

@@ -12,6 +12,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const params = new URLSearchParams();
   params.append("name", name);
   params.append("description", description);
+  // forward new fields if present
+  if (req.body.fullname) params.append("fullname", String(req.body.fullname));
+  if (req.body.institution) params.append("institution", String(req.body.institution));
+  if (req.body.phone) params.append("phone", String(req.body.phone));
+  if (req.body.email) params.append("email", String(req.body.email));
+  if (req.body.title) params.append("title", String(req.body.title));
 
   // Force the abstracts sheet name server-side to avoid client mistakes.
   const forcedSheetName = "Bme Connect Summit Abstracts";

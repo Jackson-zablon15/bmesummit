@@ -7,10 +7,14 @@ export default function Abstract() {
   const [showAbstractForm, setShowAbstractForm] = useState(false);
 
   const [abstractForm, setAbstractForm] = useState<{
-    name: string;
+    fullname: string;
+    institution: string;
+    phone: string;
+    email: string;
+    title: string;
     description: string;
     photo?: File | null;
-  }>({ name: "", description: "" });
+  }>({ fullname: "", institution: "", phone: "", email: "", title: "", description: "" });
 
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState({ name: "", description: "" });
@@ -52,11 +56,20 @@ export default function Abstract() {
     e.preventDefault();
     const formData = abstractForm;
 
-    if (validate(formData)) {
+    if (validate({ name: formData.title, description: formData.description })) {
       setSubmitting(true);
 
       try {
-        const body = { name: formData.name, description: formData.description, sheet: "Bme Connect Summit Abstracts", type: "abstract" };
+        const body = {
+          fullname: formData.fullname,
+          institution: formData.institution,
+          phone: formData.phone,
+          email: formData.email,
+          title: formData.title,
+          description: formData.description,
+          sheet: "Bme Connect Summit Abstracts",
+          type: "abstract",
+        };
         const response = await fetch("/api/submit-abstract", {
           method: "POST",
           body: JSON.stringify(body),
@@ -67,7 +80,7 @@ export default function Abstract() {
   // show a basic alert for now; we'll replace with a toast later
         if (response.ok) {
           setToast({ message: "Abstract submitted successfully!", type: "success" });
-          setAbstractForm({ name: "", description: "" });
+          setAbstractForm({ fullname: "", institution: "", phone: "", email: "", title: "", description: "" });
           setShowAbstractForm(false);
         } else {
           setToast({ message: "Error submitting abstract. Please try again.", type: "error" });
@@ -140,14 +153,66 @@ export default function Abstract() {
             </h3>
 
             <label className="block mb-3">
-              <span className="block text-blue-900 font-medium mb-1">Name of Abstract</span>
+              <span className="block text-blue-900 font-medium mb-1">Full name</span>
               <input
                 type="text"
-                name="name"
-                value={abstractForm.name}
+                name="fullname"
+                value={abstractForm.fullname}
                 onChange={handleChange}
                 required
-                placeholder="Enter abstract name"
+                placeholder="Your full name"
+                className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
+              />
+            </label>
+            
+            <label className="block mb-3">
+              <span className="block text-blue-900 font-medium mb-1">Institution</span>
+              <input
+                type="text"
+                name="institution"
+                value={abstractForm.institution}
+                onChange={handleChange}
+                required
+                placeholder="Organization / Institution"
+                className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
+              />
+            </label>
+
+            <label className="block mb-3">
+              <span className="block text-blue-900 font-medium mb-1">Phone Number</span>
+              <input
+                type="tel"
+                name="phone"
+                value={abstractForm.phone}
+                onChange={handleChange}
+                required
+                placeholder="Your phone number"
+                className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
+              />
+            </label>
+
+            <label className="block mb-3">
+              <span className="block text-blue-900 font-medium mb-1">Email</span>
+              <input
+                type="email"
+                name="email"
+                value={abstractForm.email}
+                onChange={handleChange}
+                required
+                placeholder="Your email address"
+                className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
+              />
+            </label>
+
+            <label className="block mb-3">
+              <span className="block text-blue-900 font-medium mb-1">Title</span>
+              <input
+                type="text"
+                name="title"
+                value={abstractForm.title}
+                onChange={handleChange}
+                required
+                placeholder="Abstract title"
                 className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
               />
             </label>

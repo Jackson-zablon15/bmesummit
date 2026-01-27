@@ -11,16 +11,16 @@ const studentStartups = [
     name: "ChuoMarket",
     logo: "/chuomarket.png",
   },
-  {
-    name: "ZetuMED",
-    logo: "/zetumedi.png",
-  },
 ];
 
 const sponsors = [
   {
     name: "Hyper Med",
     logo: "/hyperMed.jpg",
+  },
+  {
+    name: "GloryRoof",
+    logo: "/gloryroof.jpg",
   },
 ];
 
@@ -38,7 +38,7 @@ export default function SponsorsSection() {
         {/* Marquee for Sponsors (uses gallery logic) */}
         <div className="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 hide-scrollbar">
           <div className="flex gap-6 animate-marquee whitespace-nowrap min-w-max">
-            {sponsors.concat(sponsors).map((sponsor, idx) => (
+            {Array.from({ length: 3 }, () => sponsors).flat().map((sponsor, idx) => (
               <div key={idx} className="inline-block">
                 <div className="bg-white shadow-md border border-blue-100 rounded-2xl px-6 py-4 flex flex-col items-center justify-center transition hover:shadow-lg w-[220px]">
                   <Image
@@ -126,7 +126,7 @@ export default function SponsorsSection() {
         {/* Marquee for Startups (uses gallery logic) */}
         <div className="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 hide-scrollbar">
           <div className="flex gap-6 animate-marquee whitespace-nowrap min-w-max">
-            {studentStartups.concat(studentStartups).map((startup, idx) => (
+            {Array.from({ length: 3 }, () => studentStartups).flat().map((startup, idx) => (
               <div key={idx} className="inline-block">
                 <div className="bg-white shadow-md border border-blue-100 rounded-2xl px-5 py-4 flex flex-col items-center justify-center transition hover:shadow-lg w-[220px]">
                   <Image
@@ -153,7 +153,7 @@ export default function SponsorsSection() {
             transform: translateX(0);
           }
           100% {
-            transform: translateX(-50%);
+            transform: translateX(-66.66%);
           }
         }
         .animate-marquee {

@@ -3,16 +3,12 @@ import React from "react";
 import Image from "next/image";
 
 const galleryImages = [
-  "/gallery1.jpg",
-  "/gallery2.jpg",
-  "/gallery3.jpg",
-  "/gallery4.jpg",
-  "/gallery5.jpg",
-  "/gallery6.jpg",
-  "/gallery7.jpg",
-  "/gallery8.jpg",
-  "/gallery9.jpg",
-  "/gallery10.jpg"
+  "/gallery (1).jpg",
+  "/gallery (2).jpg",
+  "/gallery (3).jpg",
+  "/gallery (4).jpg",
+  "/gallery (5).jpg",
+  "/gallery (6).jpg"
 ];
 
 export default function Galleries() {

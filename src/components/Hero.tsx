@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 export default function Hero() {
-  const images = ["/back1.jpg", "/back2.jpg", "/back3.jpg"];
+  const images = ["/back1.jpeg", "/back2.jpeg", "/back3.jpeg"];
   const [current, setCurrent] = useState(0);
   const [prev, setPrev] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);

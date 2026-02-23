@@ -12,10 +12,10 @@ export default function About() {
             About BME Connect Summit
           </h2>
           <p className="text-blue-800 leading-relaxed mb-6">
-           The BME CONNECT SUMMIT is Tanzania’s premier annual gathering that unites Biomedical Engineering students with Engineers,technicians, professionals, companies,  hospitals,policy makers,industry leaders and investors from across the country.
-More  than 500 participants come together for a two-day transformative experience of learning, innovation, networking, and collaboration.
-The Summit equips the next generation of biomedical innovators with competence-based skills in technology, entrepreneurship, and leadership, while offering direct engagement with industry leaders, policymakers, and investors.
-Through exhibitions, mentorship sessions, and open discussions, participants gain the exposure and opportunities needed to turn their ideas into impactful solutions that advance Tanzania’s and Africa’s healthcare systems.
+            The BME CONNECT SUMMIT is Tanzania’s premier annual gathering that unites Biomedical Engineering students with Engineers,technicians, professionals, companies,  hospitals,policy makers,industry leaders and investors from across the country.
+            More  than 500 participants come together for a two-day transformative experience of learning, innovation, networking, and collaboration.
+            The Summit equips the next generation of biomedical innovators with competence-based skills in technology, entrepreneurship, and leadership, while offering direct engagement with industry leaders, policymakers, and investors.
+            Through exhibitions, mentorship sessions, and open discussions, participants gain the exposure and opportunities needed to turn their ideas into impactful solutions that advance Tanzania’s and Africa’s healthcare systems.
           </p>
 
           {/* Highlights */}
@@ -46,7 +46,7 @@ Through exhibitions, mentorship sessions, and open discussions, participants gai
         {/* Image Placeholder */}
         <div className="flex justify-center">
           <Image
-            src="/aboutus.jpg"
+            src="/aboutus.jpeg"
             alt="About Summit"
             width={400}
             height={300}

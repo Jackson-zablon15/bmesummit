@@ -59,7 +59,7 @@ export default function OrderTshirt() {
                 <div className="flex flex-col items-center">
                     <div className="relative w-64 h-64 md:w-80 md:h-80 mb-8 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
                         <Image
-                            src="/tshirt2.jpeg"
+                            src="/Tshirt2.jpeg"
                             alt="Summit T-Shirt"
                             fill
                             className="object-contain bg-white"

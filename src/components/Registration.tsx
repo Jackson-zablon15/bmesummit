@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useMemo, useLayoutEffect } from "react";
 import Image from "next/image";
+import Toast from "./Toast";
 
 export default function Registration() {
   const [form, setForm] = useState({
@@ -16,6 +17,8 @@ export default function Registration() {
     institution: "",
   });
   const [showModal, setShowModal] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type?: "success" | "error" } | null>(null);
 
   const [activeAgent, setActiveAgent] = useState<string | null>(null);
   const [heights, setHeights] = useState<{ [key: string]: number }>({});
@@ -29,15 +32,15 @@ export default function Registration() {
         name: "MUHAS",
         logo: "/muhas.png",
         // agentName is the contact person for payments; phone is the payment number placeholder
-        agentName: "Jackson",
-        phone: "0766565348",
+        agentName: "Theresia Thomas Bwana",
+        phone: "0654 003 678",
       },
       {
         id: "dit",
         name: "DIT",
         logo: "/dit.png",
-        agentName: "Jackson",
-        phone: "0766565348",
+        agentName: "Said Shaban Namiyuya",
+        phone: "0774 804 401",
       },
       {
         id: "atc",
@@ -50,8 +53,8 @@ export default function Registration() {
         id: "must",
         name: "MUST",
         logo: "/must.png",
-        agentName: "Jackson",
-        phone: "0766565348",
+        agentName: "Abednego Albert Sasi",
+        phone: "0757 106 722",
       },
        {
         id: "mvumi",
@@ -91,31 +94,31 @@ export default function Registration() {
     return input.replace(/<[^>]*>?/gm, "").trim();
   }
 
-  function validate() {
+  function validate(formData = form) {
     let valid = true;
     const newErrors = { name: "", email: "", phone: "", institution: "" };
-    if (!form.name.trim()) {
+    if (!formData.name.trim()) {
       newErrors.name = "Full name is required.";
       valid = false;
-    } else if (!/^[\w\s.'-]{2,}$/.test(form.name)) {
+    } else if (!/^[\w\s.'-]{2,}$/.test(formData.name)) {
       newErrors.name = "Name contains invalid characters.";
       valid = false;
     }
-    if (!form.email.trim()) {
+    if (!formData.email.trim()) {
       newErrors.email = "Email is required.";
       valid = false;
-    } else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email)) {
+    } else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(formData.email)) {
       newErrors.email = "Invalid email address.";
       valid = false;
     }
-    if (!form.phone.trim()) {
+    if (!formData.phone.trim()) {
       newErrors.phone = "Phone number is required.";
       valid = false;
-    } else if (!/[\d+\-()\s]{7,}/.test(form.phone)) {
+    } else if (!/[\d+\-()\s]{7,}/.test(formData.phone)) {
       newErrors.phone = "Invalid phone number.";
       valid = false;
     }
-    if (!form.institution.trim()) {
+    if (!formData.institution.trim()) {
       newErrors.institution = "Institution is required.";
       valid = false;
     }
@@ -129,7 +132,7 @@ export default function Registration() {
     setErrors((prev) => ({ ...prev, [name]: "" }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const sanitized = {
       name: sanitize(form.name),
@@ -138,8 +141,37 @@ export default function Registration() {
       institution: sanitize(form.institution),
     };
     setForm(sanitized);
-    if (validate()) {
-      setShowModal(true);
+    if (!validate(sanitized)) {
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const response = await fetch("/api/submit-registration", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullname: sanitized.name,
+          email: sanitized.email,
+          phone: sanitized.phone,
+          institution: sanitized.institution,
+          sheet: "Registrations",
+          type: "registration",
+        }),
+      });
+
+      if (response.ok) {
+        setToast({ message: "Registration submitted successfully!", type: "success" });
+        setShowModal(true);
+        setForm({ name: "", email: "", phone: "", institution: "" });
+      } else {
+        setToast({ message: "Error submitting registration. Please try again.", type: "error" });
+      }
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      setToast({ message: "Submission failed: " + message, type: "error" });
+    } finally {
+      setSubmitting(false);
     }
   }
 
@@ -254,9 +286,10 @@ export default function Registration() {
 
           <button
             type="submit"
+            disabled={submitting}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-6 py-3 font-semibold shadow transition"
           >
-            Register
+            {submitting ? "Submitting..." : "Register"}
           </button>
           <p className="text-sm text-gray-500 mt-2 text-center">
             Your information will only be used for event updates.
@@ -339,6 +372,10 @@ export default function Registration() {
             </button>
           </div>
         </div>
+      )}
+
+      {toast && (
+        <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />
       )}
     </section>
   );

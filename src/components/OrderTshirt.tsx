@@ -6,6 +6,7 @@ export default function OrderTshirt() {
     const [showOrderForm, setShowOrderForm] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
+        university: "",
         phone: "",
         size: "Medium (MD)",
         color: "Light Blue",
@@ -20,11 +21,11 @@ export default function OrderTshirt() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const { name, phone, size, color } = formData;
+        const { name, university, phone, size, color } = formData;
 
         // Construct the message
         // "My name is {name} and i have placed tshirt order for summit of size {size} color {color}. my phone number is {phone} redy to be sent"
-        const message = `My name is ${name} and i have placed tshirt order for summit of size ${size} color ${color}. my phone number is ${phone} redy to be sent`;
+        const message = `My name is ${name} from ${university} and i have placed tshirt order for summit of size ${size} color ${color}. My phone number is ${phone} ready to be sent`;
 
         // WhatsApp URL
         // Phone number: 0769994654 -> Tanzania code +255 769 994 654
@@ -40,6 +41,7 @@ export default function OrderTshirt() {
         setShowOrderForm(false);
         setFormData({
             name: "",
+            university: "",
             phone: "",
             size: "Medium (MD)",
             color: "Light Blue",
@@ -125,6 +127,21 @@ export default function OrderTshirt() {
                                         onChange={handleChange}
                                         required
                                         placeholder="07XXXXXXXX"
+                                        className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-blue-900 font-medium mb-1">
+                                        University
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="university"
+                                        value={formData.university}
+                                        onChange={handleChange}
+                                        required
+                                        placeholder="Enter your university"
                                         className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
                                     />
                                 </div>

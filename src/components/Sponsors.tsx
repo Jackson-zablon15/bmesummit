@@ -11,6 +11,10 @@ const studentStartups = [
     name: "ChuoMarket",
     logo: "/chuomarket.png",
   },
+  {
+    name: "Flowtera",
+    logo: "/flowtera.png",
+  },
 ];
 
 const sponsors = [

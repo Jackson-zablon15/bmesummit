@@ -108,11 +108,40 @@ export default function Essay() {
                         </div>
                         <div className="mt-4">
                             <h3 className="text-lg font-semibold text-blue-900 mb-2">
-                                Sample Essay Topic
+                                Essay Question
                             </h3>
                             <p className="text-blue-800 text-sm">
-                                Explore the impact of technology on modern healthcare systems and the role of biomedical engineers in Tanzania.
+                             In the age of AI and the pursuit of sustainability, what does it truly mean to 'engineer health equity' for Africa's future? Drawing from the summit's theme and sub-themes, identify a pressing healthcare challenge in an African context and propose a biomedical engineering-driven solution that is innovative, contextually appropriate, and sustainable.   
                             </p>
+                            <div className="mt-4">
+                                <details className="border border-blue-200 rounded-lg p-3 bg-blue-50">
+                                    <summary className="text-blue-900 font-medium cursor-pointer">
+                                        Guidelines
+                                    </summary>
+                                    <ul className="list-disc pl-5 mt-3 space-y-1 text-sm text-blue-900">
+                                        <li>Open to BME students in Tanzania registered for 2025/2026.</li>
+                                        <li>Write in English and keep the essay between 1,000 and 1,200 words.</li>
+                                        <li>Submit both Word and PDF files.</li>
+                                        <li>Use Times New Roman, font size 12, and 1.5 line spacing.</li>
+                                        <li>
+                                            File name format: <code>Summit2026_YourName_UniversityAbbreviation</code>.
+                                        </li>
+                                        <li>
+                                            Include on the first page: essay title, official essay question, short bio
+                                            (max 50 words), and contact details.
+                                        </li>
+                                        <li>Submit original work only; plagiarism leads to disqualification.</li>
+                                        <li>AI-generated essay content is not allowed.</li>
+                                        <li>
+                                            Cite all external facts/ideas using a consistent style (APA 7th or MLA 9th)
+                                            and include references.
+                                        </li>
+                                        <li>
+                                            Submission opens March 1, 2026 and closes March 31, 2026 at 11:59 PM EAT.
+                                        </li>
+                                    </ul>
+                                </details>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -231,35 +260,6 @@ export default function Essay() {
                                     )}
                                 </label>
 
-                                <div className="block">
-                                    <details className="border border-blue-200 rounded-lg p-3 bg-blue-50">
-                                        <summary className="text-blue-900 font-medium cursor-pointer">
-                                            Guidelines
-                                        </summary>
-                                        <ul className="list-disc pl-5 mt-3 space-y-1 text-sm text-blue-900">
-                                            <li>Open to BME students in Tanzania registered for 2025/2026.</li>
-                                            <li>Write in English and keep the essay between 1,000 and 1,200 words.</li>
-                                            <li>Submit both Word and PDF files.</li>
-                                            <li>Use Times New Roman, font size 12, and 1.5 line spacing.</li>
-                                            <li>
-                                                File name format: <code>Summit2026_YourName_UniversityAbbreviation</code>.
-                                            </li>
-                                            <li>
-                                                Include on the first page: essay title, official essay question, short bio
-                                                (max 50 words), and contact details.
-                                            </li>
-                                            <li>Submit original work only; plagiarism leads to disqualification.</li>
-                                            <li>AI-generated essay content is not allowed.</li>
-                                            <li>
-                                                Cite all external facts/ideas using a consistent style (APA 7th or MLA 9th)
-                                                and include references.
-                                            </li>
-                                            <li>
-                                                Submission opens March 1, 2026 and closes March 31, 2026 at 11:59 PM EAT.
-                                            </li>
-                                        </ul>
-                                    </details>
-                                </div>
                             </div>
 
                             <button

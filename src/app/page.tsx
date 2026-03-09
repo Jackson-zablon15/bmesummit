@@ -24,7 +24,6 @@ export default function Home() {
       <section id="registration"><Registration /></section>
       <section id="booth"><Booth /></section>
       <section id="innovation"><Innovation /></section>
-      <section id="abstract"><Abstract /></section>
       <section id="essay"><Essay /></section>
       <section id="order-tshirt"><OrderTshirt /></section>
       <section id="sponsors"><Sponsors /></section>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Toast from "./Toast";
 
 export default function Essay() {
+    const MAX_PDF_SIZE_BYTES = 7 * 1024 * 1024;
     const [showEssayForm, setShowEssayForm] = useState(false);
 
     const [essayForm, setEssayForm] = useState<{
@@ -12,29 +13,41 @@ export default function Essay() {
         phone: string;
         email: string;
         title: string;
-        description: string;
-    }>({ fullname: "", institution: "", phone: "", email: "", title: "", description: "" });
+    }>({ fullname: "", institution: "", phone: "", email: "", title: "" });
+    const [essayFile, setEssayFile] = useState<File | null>(null);
 
     const [submitting, setSubmitting] = useState(false);
-    const [errors, setErrors] = useState({ name: "", description: "" });
+    const [errors, setErrors] = useState({ name: "", file: "" });
     const [toast, setToast] = useState<{ message: string; type?: "success" | "error" } | null>(null);
 
     function handleChange(
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        e: React.ChangeEvent<HTMLInputElement>
     ) {
-        const { name, value } = e.target;
+        const { name, value, type, files } = e.target;
+        if (type === "file") {
+            const file = files?.[0] || null;
+            setEssayFile(file);
+            setErrors((prev) => ({ ...prev, file: "" }));
+            return;
+        }
         setEssayForm((f) => ({ ...f, [name]: value }));
     }
 
-    function validate(form: { name: string; description: string }) {
+    function validate(form: { name: string; file: File | null }) {
         let valid = true;
-        const newErrors = { name: "", description: "" };
+        const newErrors = { name: "", file: "" };
         if (!form.name.trim()) {
             newErrors.name = "Title is required.";
             valid = false;
         }
-        if (!form.description.trim()) {
-            newErrors.description = "Description is required.";
+        if (!form.file) {
+            newErrors.file = "PDF file is required.";
+            valid = false;
+        } else if (form.file.type !== "application/pdf") {
+            newErrors.file = "Only PDF files are allowed.";
+            valid = false;
+        } else if (form.file.size > MAX_PDF_SIZE_BYTES) {
+            newErrors.file = "PDF is too large. Please upload a file smaller than 7 MB.";
             valid = false;
         }
 
@@ -42,23 +55,44 @@ export default function Essay() {
         return valid;
     }
 
+    function fileToBase64(file: File): Promise<string> {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const result = reader.result;
+                if (typeof result !== "string") {
+                    reject(new Error("Failed to read file."));
+                    return;
+                }
+                const base64 = result.split(",")[1];
+                resolve(base64 || "");
+            };
+            reader.onerror = () => reject(new Error("Could not read PDF file."));
+            reader.readAsDataURL(file);
+        });
+    }
+
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         const formData = essayForm;
 
-        if (validate({ name: formData.title, description: formData.description })) {
+        if (validate({ name: formData.title, file: essayFile })) {
             setSubmitting(true);
 
             try {
+                const pdfBase64 = essayFile ? await fileToBase64(essayFile) : "";
                 const body = {
                     fullname: formData.fullname,
                     institution: formData.institution,
                     phone: formData.phone,
                     email: formData.email,
                     title: formData.title,
-                    description: formData.description,
+                    description: "",
                     sheet: "Essays",
                     type: "essay",
+                    pdfName: essayFile?.name || "",
+                    pdfMimeType: essayFile?.type || "application/pdf",
+                    pdfBase64,
                 };
 
                 const response = await fetch("/api/submit-essay", {
@@ -69,10 +103,18 @@ export default function Essay() {
 
                 if (response.ok) {
                     setToast({ message: "Essay application submitted successfully!", type: "success" });
-                    setEssayForm({ fullname: "", institution: "", phone: "", email: "", title: "", description: "" });
+                    setEssayForm({ fullname: "", institution: "", phone: "", email: "", title: "" });
+                    setEssayFile(null);
                     setShowEssayForm(false);
                 } else {
-                    setToast({ message: "Error submitting application. Please try again.", type: "error" });
+                    let backendMessage = "Error submitting application. Please try again.";
+                    try {
+                        const data = (await response.json()) as { message?: string };
+                        if (data?.message) backendMessage = data.message;
+                    } catch {
+                        // ignore parse errors and use default message
+                    }
+                    setToast({ message: backendMessage, type: "error" });
                 }
             } catch (error: unknown) {
                 const message = error instanceof Error ? error.message : String(error);
@@ -121,7 +163,7 @@ export default function Essay() {
                                     <ul className="list-disc pl-5 mt-3 space-y-1 text-sm text-blue-900">
                                         <li>Open to BME students in Tanzania registered for 2025/2026.</li>
                                         <li>Write in English and keep the essay between 1,000 and 1,200 words.</li>
-                                        <li>Submit both Word and PDF files.</li>
+                                        <li>Submit both PDF file.</li>
                                         <li>Use Times New Roman, font size 12, and 1.5 line spacing.</li>
                                         <li>
                                             File name format: <code>Summit2026_YourName_UniversityAbbreviation</code>.
@@ -137,7 +179,7 @@ export default function Essay() {
                                             and include references.
                                         </li>
                                         <li>
-                                            Submission opens March 1, 2026 and closes March 31, 2026 at 11:59 PM EAT.
+                                            Submission opens March 1, 2026 and closes April 24, 2026 at 11:59 PM EAT.
                                         </li>
                                     </ul>
                                 </details>
@@ -245,18 +287,17 @@ export default function Essay() {
                                 </label>
 
                                 <label className="block">
-                                    <span className="block text-blue-900 font-medium mb-1">Description</span>
-                                    <textarea
-                                        name="description"
-                                        value={essayForm.description}
+                                    <span className="block text-blue-900 font-medium mb-1">Upload Essay (PDF)</span>
+                                    <input
+                                        type="file"
+                                        name="essayFile"
+                                        accept="application/pdf,.pdf"
                                         onChange={handleChange}
                                         required
-                                        rows={3}
-                                        placeholder="Brief description of your essay"
                                         className="w-full border border-blue-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 text-black"
                                     />
-                                    {errors.description && (
-                                        <p className="text-red-500 text-xs mt-1">{errors.description}</p>
+                                    {errors.file && (
+                                        <p className="text-red-500 text-xs mt-1">{errors.file}</p>
                                     )}
                                 </label>
 

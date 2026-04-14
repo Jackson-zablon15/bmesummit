@@ -1,8 +1,14 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-const studentStartups = [
+type CardItem = {
+  name: string;
+  logo: string;
+};
+
+const studentStartups: CardItem[] = [
   {
     name: "Cotronix",
     logo: "/cotronix.jpg",
@@ -17,7 +23,7 @@ const studentStartups = [
   },
 ];
 
-const sponsors = [
+const sponsors: CardItem[] = [
   {
     name: "Hyper Med",
     logo: "/hyperMed.jpg",
@@ -28,51 +34,166 @@ const sponsors = [
   },
 ];
 
+function DraggableMarquee({
+  items,
+  imageSize,
+  imageClassName,
+}: {
+  items: CardItem[];
+  imageSize: number;
+  imageClassName: string;
+}) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const isDraggingRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const dragStartScrollRef = useRef(0);
+  const animationFrameRef = useRef<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const repeatedItems = [...items, ...items, ...items];
+
+  useEffect(() => {
+    const container = containerRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    let lastTimestamp = 0;
+    const pixelsPerSecond = 38;
+
+    const step = (timestamp: number) => {
+      if (!containerRef.current) {
+        return;
+      }
+
+      if (!lastTimestamp) {
+        lastTimestamp = timestamp;
+      }
+
+      const singleSetWidth = containerRef.current.scrollWidth / 3;
+
+      if (!isDraggingRef.current && singleSetWidth > 0) {
+        const delta = ((timestamp - lastTimestamp) / 1000) * pixelsPerSecond;
+        containerRef.current.scrollLeft += delta;
+
+        if (containerRef.current.scrollLeft >= singleSetWidth * 2) {
+          containerRef.current.scrollLeft -= singleSetWidth;
+        }
+      }
+
+      lastTimestamp = timestamp;
+      animationFrameRef.current = window.requestAnimationFrame(step);
+    };
+
+    container.scrollLeft = container.scrollWidth / 3;
+    animationFrameRef.current = window.requestAnimationFrame(step);
+
+    return () => {
+      if (animationFrameRef.current !== null) {
+        window.cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [items]);
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    const container = containerRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    isDraggingRef.current = true;
+    setIsDragging(true);
+    dragStartXRef.current = event.clientX;
+    dragStartScrollRef.current = container.scrollLeft;
+    container.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const container = containerRef.current;
+
+    if (!container || !isDraggingRef.current) {
+      return;
+    }
+
+    const deltaX = event.clientX - dragStartXRef.current;
+    container.scrollLeft = dragStartScrollRef.current - deltaX;
+  };
+
+  const handlePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    const container = containerRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    isDraggingRef.current = false;
+    setIsDragging(false);
+
+    if (container.hasPointerCapture(event.pointerId)) {
+      container.releasePointerCapture(event.pointerId);
+    }
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className={`hide-scrollbar overflow-x-auto w-full select-none touch-pan-y ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+      onPointerLeave={handlePointerUp}
+    >
+      <div className="flex min-w-max gap-6 whitespace-nowrap py-1">
+        {repeatedItems.map((item, idx) => (
+          <div key={`${item.name}-${idx}`} className="inline-block">
+            <div className="flex w-[220px] flex-col items-center justify-center rounded-2xl border border-blue-100 bg-white px-6 py-4 shadow-md transition hover:shadow-lg">
+              <Image
+                src={item.logo}
+                alt={`${item.name} logo`}
+                width={imageSize}
+                height={imageSize}
+                className={imageClassName}
+                draggable={false}
+              />
+              <div className="mt-1 text-center text-base font-semibold leading-tight text-blue-900">
+                {item.name}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function SponsorsSection() {
   const [showIcons, setShowIcons] = useState(false);
 
   return (
     <>
-      {/* ======== Sponsors Section ======== */}
-      <section className="py-16 px-4 bg-blue-50">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-blue-900">
+      <section className="bg-blue-50 px-4 pt-16 pb-8">
+        <h2 className="mb-10 text-center text-3xl font-bold text-blue-900 md:text-4xl">
           Our Sponsors
         </h2>
 
-        {/* Marquee for Sponsors (uses gallery logic) */}
-        <div className="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 hide-scrollbar">
-          <div className="flex gap-6 animate-marquee whitespace-nowrap min-w-max">
-            {Array.from({ length: 3 }, () => sponsors).flat().map((sponsor, idx) => (
-              <div key={idx} className="inline-block">
-                <div className="bg-white shadow-md border border-blue-100 rounded-2xl px-6 py-4 flex flex-col items-center justify-center transition hover:shadow-lg w-[220px]">
-                  <Image
-                    src={sponsor.logo}
-                    alt={sponsor.name + " logo"}
-                    width={160}
-                    height={160}
-                    className="object-contain h-36 w-36 mb-1 rounded-xl"
-                  />
-                  <div className="text-base font-semibold text-blue-900 text-center mt-1 leading-tight">
-                    {sponsor.name}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <DraggableMarquee
+          items={sponsors}
+          imageSize={160}
+          imageClassName="mb-1 h-36 w-36 rounded-xl object-contain"
+        />
 
-        {/* Become a Sponsor Button */}
-        <div className="flex justify-center mt-24 relative h-16">
-          {/* Animated icons */}
+        <div className="relative mt-24 flex h-16 justify-center">
           <div
-            className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center gap-0 z-10"
+            className="absolute left-1/2 z-10 flex -translate-x-1/2 items-center justify-center gap-0"
             style={{ pointerEvents: showIcons ? "auto" : "none" }}
           >
-            {/* Email icon */}
             <a
               href="mailto:info@bmesummit.org"
-              className={`mb-2 bg-white rounded-full shadow-lg p-3 text-blue-800 border border-blue-200 transition-all duration-500 ease-in-out flex items-center justify-center
-                ${showIcons ? "opacity-100 -translate-x-12 -translate-y-16 rotate-[-18deg]" : "opacity-0 translate-x-0 translate-y-0 rotate-0"}`}
+              className={`mb-2 flex items-center justify-center rounded-full border border-blue-200 bg-white p-3 text-blue-800 shadow-lg transition-all duration-500 ease-in-out
+                ${showIcons ? "opacity-100 -translate-x-12 -translate-y-16 rotate-[-18deg]" : "translate-x-0 translate-y-0 rotate-0 opacity-0"}`}
               style={{ transitionDelay: showIcons ? "100ms" : "0ms" }}
               aria-label="Email"
               target="_blank"
@@ -91,11 +212,10 @@ export default function SponsorsSection() {
               </svg>
             </a>
 
-            {/* WhatsApp icon */}
             <a
               href="https://wa.me/+255758758153"
-              className={`bg-white rounded-full shadow-lg p-3 text-green-600 border border-green-200 transition-all duration-500 ease-in-out flex items-center justify-center
-                ${showIcons ? "opacity-100 translate-x-12 -translate-y-16 rotate-[18deg]" : "opacity-0 translate-x-0 translate-y-0 rotate-0"}`}
+              className={`flex items-center justify-center rounded-full border border-green-200 bg-white p-3 text-green-600 shadow-lg transition-all duration-500 ease-in-out
+                ${showIcons ? "opacity-100 translate-x-12 -translate-y-16 rotate-[18deg]" : "translate-x-0 translate-y-0 rotate-0 opacity-0"}`}
               style={{ transitionDelay: showIcons ? "250ms" : "0ms" }}
               aria-label="WhatsApp"
               target="_blank"
@@ -112,66 +232,26 @@ export default function SponsorsSection() {
           </div>
 
           <button
-            className="bg-blue-800 text-white font-bold rounded-full px-8 py-2 shadow hover:bg-blue-900 transition relative z-20 text-base"
+            className="relative z-20 rounded-full bg-blue-800 px-8 py-2 text-base font-bold text-white shadow transition hover:bg-blue-900"
             style={{ height: "40px" }}
-            onClick={() => setShowIcons((v) => !v)}
+            onClick={() => setShowIcons((value) => !value)}
           >
             Become a Sponsor
           </button>
         </div>
       </section>
 
-      {/* ======== Student Startups Section ======== */}
-      <section className="py-16 px-4 bg-blue-50">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-blue-900">
+      <section className="bg-blue-50 px-4 pt-8 pb-16">
+        <h2 className="mb-10 text-center text-3xl font-bold text-blue-900 md:text-4xl">
           Students Startups
         </h2>
 
-        {/* Marquee for Startups (uses gallery logic) */}
-        <div className="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 hide-scrollbar">
-          <div className="flex gap-6 animate-marquee whitespace-nowrap min-w-max">
-            {Array.from({ length: 3 }, () => studentStartups).flat().map((startup, idx) => (
-              <div key={idx} className="inline-block">
-                <div className="bg-white shadow-md border border-blue-100 rounded-2xl px-5 py-4 flex flex-col items-center justify-center transition hover:shadow-lg w-[220px]">
-                  <Image
-                    src={startup.logo}
-                    alt={startup.name + " logo"}
-                    width={150}
-                    height={150}
-                    className="object-contain h-32 w-32 mb-1 rounded-full"
-                  />
-                  <div className="text-base font-semibold text-blue-900 text-center mt-1 leading-tight">
-                    {startup.name}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <DraggableMarquee
+          items={studentStartups}
+          imageSize={150}
+          imageClassName="mb-1 h-32 w-32 rounded-full object-contain"
+        />
       </section>
-
-      {/* ======== Marquee Animation Style & hide-scrollbar ======== */}
-      <style jsx>{`
-        @keyframes marquee {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-66.66%);
-          }
-        }
-        .animate-marquee {
-          animation: marquee 25s linear infinite;
-        }
-        /* hide scrollbar helper (same as gallery) */
-        .hide-scrollbar {
-          -ms-overflow-style: none; /* IE and Edge */
-          scrollbar-width: none; /* Firefox */
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none; /* Chrome, Safari, Opera */
-        }
-      `}</style>
     </>
   );
 }

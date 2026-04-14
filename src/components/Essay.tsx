@@ -140,7 +140,7 @@ export default function Essay() {
                         <div className="w-full h-48 relative">
                             {/* Using a placeholder image or training.jpg if available */}
                             <Image
-                                src="/training.jpg"
+                                src="/essay.jpg"
                                 alt="Essay Competition"
                                 fill
                                 className="object-cover rounded-t-xl"

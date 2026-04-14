@@ -1,144 +1,109 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+
+const headlinePhrases = [
+  "Innovation.",
+  "Mentorship.",
+  "BME Connect Summit.",
+];
 
 export default function Hero() {
   const images = ["/back1.jpeg", "/back2.jpeg", "/back3.jpeg"];
   const [current, setCurrent] = useState(0);
-  const [prev, setPrev] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  const currentRef = useRef(current);
-  const timeoutRef = useRef<number | null>(null);
-
-  // durations (ms)
-  const fadeDuration = 1000; // crossfade duration
-  const displayDuration = 5000; // how long each slide stays
-
-  // keep currentRef in sync
-  useEffect(() => {
-    currentRef.current = current;
-  }, [current]);
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [typedText, setTypedText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const displayDuration = 5000;
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const next = (currentRef.current + 1) % images.length;
-
-      // set prev to the currently visible image
-      setPrev(currentRef.current);
-
-      // show the next image (on top) and start transition
-      setCurrent(next);
-      setIsTransitioning(true);
-
-      // clear any prior timeout
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-
-      // after fade completes, stop transitioning and update prev to match current
-      timeoutRef.current = window.setTimeout(() => {
-        setIsTransitioning(false);
-        setPrev(next);
-        timeoutRef.current = null;
-      }, fadeDuration);
-
-      // update ref
-      currentRef.current = next;
+      setCurrent((prev) => (prev + 1) % images.length);
     }, displayDuration);
 
-    return () => {
-      clearInterval(intervalId);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
+    return () => clearInterval(intervalId);
   }, [images.length]);
+
+  useEffect(() => {
+    const activePhrase = headlinePhrases[phraseIndex];
+    const hasCompletedTyping = typedText === activePhrase;
+    const hasDeletedPhrase = typedText.length === 0;
+
+    let timeoutMs = isDeleting ? 45 : 85;
+
+    if (!isDeleting && hasCompletedTyping) {
+      timeoutMs = 1600;
+    } else if (isDeleting && hasDeletedPhrase) {
+      timeoutMs = 280;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      if (!isDeleting) {
+        if (hasCompletedTyping) {
+          setIsDeleting(true);
+          return;
+        }
+
+        setTypedText(activePhrase.slice(0, typedText.length + 1));
+        return;
+      }
+
+      if (hasDeletedPhrase) {
+        setIsDeleting(false);
+        setPhraseIndex((prev) => (prev + 1) % headlinePhrases.length);
+        return;
+      }
+
+      setTypedText(activePhrase.slice(0, typedText.length - 1));
+    }, timeoutMs);
+
+    return () => clearTimeout(timeoutId);
+  }, [isDeleting, phraseIndex, typedText]);
 
   return (
     <section
       aria-label="Hero"
       className="
         relative w-full overflow-hidden flex items-center 
-        justify-center md:justify-start
+        justify-start
         px-6 sm:px-8 md:px-24
         py-16 sm:py-20 md:py-28 lg:py-32
-        min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] lg:min-h-[90vh]
+        min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] lg:min-h-screen
       "
     >
-      {/* Background images (prev + current) */}
+      {/* Keep all slides mounted and only fade opacity to avoid a flash between swaps. */}
       <div className="absolute inset-0 w-full h-full z-0">
-        {/* Both images always present, only opacity changes */}
-        <div className="absolute inset-0 w-full h-full">
+        {images.map((src, index) => (
           <Image
-            src={images[prev]}
-            alt={`background ${prev + 1}`}
+            key={src}
+            src={src}
+            alt={`background ${index + 1}`}
             fill
-            priority
+            priority={index === 0}
             unoptimized
-            className={`object-cover transition-opacity duration-[1000ms] ${isTransitioning ? "opacity-0" : "opacity-100"}`}
+            className={`object-cover transition-opacity duration-[1000ms] ${index === current ? "opacity-100" : "opacity-0"}`}
             style={{ zIndex: 1 }}
           />
-          <Image
-            src={images[current]}
-            alt={`background ${current + 1}`}
-            fill
-            priority
-            unoptimized
-            className={`object-cover transition-opacity duration-[1000ms] ${isTransitioning ? "opacity-100" : "opacity-0"}`}
-            style={{ zIndex: 2 }}
-          />
-        </div>
-        {/* Overlay always above both images */}
+        ))}
         <div className="absolute inset-0 bg-blue-900/30 pointer-events-none" style={{ zIndex: 3 }} />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-2xl w-full text-center md:text-left">
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-2 leading-tight">
-          Welcome to <br /> BME Connect Summit
-        </h1>
-
-        <p className="text-lg md:text-2xl text-white mb-4 max-w-xl mx-auto md:mx-0">
-          Uniting BME with opportunities.
-        </p>
-
-        <div className="flex flex-col sm:flex-row items-center sm:items-center gap-3 sm:gap-6 mb-6 justify-center md:justify-start">
-          {/* Location */}
-          <span className="flex items-center text-white text-base md:text-lg">
-            <svg
-              className="w-5 h-5 mr-1 text-blue-200"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 21c-4.418 0-8-5.373-8-10a8 8 0 1 1 16 0c0 4.627-3.582 10-8 10z"
-              />
-              <circle cx="12" cy="11" r="3" />
-            </svg>
-            SANTIKA HALL, Mwenge, Dsm
-          </span>
-
-          {/* Date */}
-          <span className="flex items-center text-white text-base md:text-lg">
-            <svg
-              className="w-5 h-5 mr-1 text-blue-200"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <rect x="3" y="4" width="18" height="18" rx="2" />
-              <path d="M16 2v4M8 2v4M3 10h18" />
-            </svg>
-            15th-16th May 2026
-          </span>
+      <div className="relative z-10 max-w-2xl w-full text-left">
+        <div className="mb-2 min-h-[6.5rem] sm:min-h-[7.5rem] md:min-h-[9.5rem]">
+          <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
+            <span className="block">Welcome to</span>
+            <span className="block text-white">
+              {typedText}
+              <span className="hero-type-cursor" aria-hidden="true">
+                |
+              </span>
+            </span>
+          </h1>
         </div>
 
-        <div className="flex items-center justify-center md:justify-start gap-4">
+        <div className="flex items-center justify-start gap-4">
           <a
             href="#registration"
             className="bg-blue-800 text-white px-4 py-2 rounded-full shadow hover:bg-blue-900 text-sm md:text-base transition text-center"

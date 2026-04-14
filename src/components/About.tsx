@@ -12,11 +12,64 @@ export default function About() {
             About BME Connect Summit
           </h2>
           <p className="text-blue-800 leading-relaxed mb-6">
-            The BME CONNECT SUMMIT is Tanzania’s premier annual gathering that unites Biomedical Engineering students with Engineers,technicians, professionals, companies,  hospitals,policy makers,industry leaders and investors from across the country.
-            More  than 500 participants come together for a two-day transformative experience of learning, innovation, networking, and collaboration.
-            The Summit equips the next generation of biomedical innovators with competence-based skills in technology, entrepreneurship, and leadership, while offering direct engagement with industry leaders, policymakers, and investors.
-            Through exhibitions, mentorship sessions, and open discussions, participants gain the exposure and opportunities needed to turn their ideas into impactful solutions that advance Tanzania’s and Africa’s healthcare systems.
+           The BME Connect Summit is Tanzania’s premier biomedical engineering event, uniting over 500 students, professionals, 
+           and industry leaders for networking, innovation, mentorship, and skills development to advance 
+           healthcare solutions across Tanzania and Africa
           </p>
+
+          <div className="mb-8 grid gap-3 sm:grid-cols-2">
+            <div className="flex items-center gap-3 rounded-2xl border border-white/40 bg-white/30 px-4 py-3 shadow-lg backdrop-blur-md">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/45 text-blue-800">
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 21c-4.418 0-8-5.373-8-10a8 8 0 1 1 16 0c0 4.627-3.582 10-8 10z"
+                  />
+                  <circle cx="12" cy="11" r="3" />
+                </svg>
+              </span>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">
+                  Location
+                </p>
+                <p className="text-sm font-medium text-blue-900">
+                  SANTIKA HALL, Mwenge, Dsm
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 rounded-2xl border border-white/40 bg-white/30 px-4 py-3 shadow-lg backdrop-blur-md">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/45 text-blue-800">
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" />
+                  <path d="M16 2v4M8 2v4M3 10h18" />
+                </svg>
+              </span>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">
+                  Date
+                </p>
+                <p className="text-sm font-medium text-blue-900">
+                  15th-16th May 2026
+                </p>
+              </div>
+            </div>
+          </div>
 
           {/* Highlights */}
           <div className="grid grid-cols-2 gap-4">

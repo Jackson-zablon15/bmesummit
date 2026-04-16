@@ -190,10 +190,11 @@ export default function Essay() {
 
                 <div className="flex justify-center mt-10">
                     <button
-                        className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-6 py-3 font-semibold cursor-pointer transition"
-                        onClick={() => setShowEssayForm(true)}
+                        type="button"
+                        className="bg-red-600 text-white rounded-lg px-6 py-3 font-semibold cursor-not-allowed opacity-90 transition"
+                        disabled
                     >
-                        Apply for Essay Competition
+                        Application Closed
                     </button>
                 </div>
 

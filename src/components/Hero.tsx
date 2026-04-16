@@ -92,7 +92,7 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 max-w-2xl w-full text-left">
         <div className="mb-2 min-h-[6.5rem] sm:min-h-[7.5rem] md:min-h-[9.5rem]">
-          <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white leading-tight">
             <span className="block">Welcome to</span>
             <span className="block text-white">
               {typedText}

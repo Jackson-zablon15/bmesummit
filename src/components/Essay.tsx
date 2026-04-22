@@ -179,7 +179,7 @@ export default function Essay() {
                                             and include references.
                                         </li>
                                         <li>
-                                            Submission opens March 1, 2026 and closes April 22, 2026 at 11:59 PM EAT.
+                                            Submission opens March 1, 2026 and closes April 21, 2026 at 11:59 PM EAT.
                                         </li>
                                     </ul>
                                 </details>
@@ -191,10 +191,10 @@ export default function Essay() {
                 <div className="flex justify-center mt-10">
                     <button
                         type="button"
-                        className="bg-blue-700 hover:bg-blue-800 text-white rounded-lg px-6 py-3 font-semibold transition cursor-pointer"
-                        onClick={() => setShowEssayForm(true)}
+                        className="bg-red-600 text-white rounded-lg px-6 py-3 font-semibold cursor-not-allowed opacity-90 transition"
+                        disabled
                     >
-                        Apply Now
+                        Application Closed
                     </button>
                 </div>
 
